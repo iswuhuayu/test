@@ -1,0 +1,46 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>angular Js猜数字</title>
+    <link rel="stylesheet" href="http://cdn.bootcss.com/bootstrap/3.3.0/css/bootstrap.min.css">
+    <script src="http://cdn.static.runoob.com/libs/angular.js/1.4.6/angular.min.js"></script>
+
+    <script>
+        angular.module('myapp',[])
+            .controller('myCtrl',function ($scope) {
+                //生成一个1-1000的随机数
+                var random;
+                //验证函数
+                $scope.validate=function () {
+                    $scope.differ=$scope.guessNum-random;
+                    $scope.guessCount++;
+                };
+                //再玩一次
+                $scope.play=function () {
+                    random=Math.ceil(Math.random()*1000);
+                    $scope.guessNum=null;
+                    $scope.differ=null;
+                    $scope.guessCount=0;
+                };
+                //游戏开始前先运行，并对数值进行清空
+                $scope.play();
+            })
+    </script>
+</head>
+<body>
+<div class="container" ng-app="myapp" ng-controller="myCtrl">
+    <h2>猜数小游戏</h2>
+    <p class="well lead">猜猜计算机随机摇号的号码是多少</p>
+    <label>我猜是：<input type="text" ng-model="guessNum"></label>
+    <button type="button" class='btn btn-primary' ng-click="validate()">验证</button>
+    <button type="button" class='btn btn-primary' ng-click="play()">再来一次</button>
+    <p>
+        <p class="alert alert-warning" ng-show="differ>0"> 大了点</p>
+        <p class="alert alert-warning" ng-show="differ<0"> 小了点</p>
+        <p class="alert alert-warning" ng-show="differ==0"> 对了</p>
+    </p>
+    <p class="text-info">猜测的次数是<span class="badge" ng-model="guessCount">{{guessCount}}</span></p>
+</div>
+</body>
+</html>
